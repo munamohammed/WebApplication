@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <title>Attendance System</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <style>
+
+        .input-group {
+            margin: 10px;
+            padding: 5px;
+        }
+
+        .container {
+
+            background: gainsboro;
+            border-radius: 10px;
+            margin: 50px;
+
+
+        }
+
+        .banner {
+            width: 100%;
+            display: block;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        .bar {
+            width: 100%;
+            display: block;
+        }
+
+        footer {
+            color: darkgray;
+
+        }
+
+        body {
+            background-color: #efefef;
+        }
+
+
+    </style>
+</head>
+<body>
+<div>
+
+    <div class="banner">
+        <img src="banner-1.png">
+    </div>
+
+    <div class="bar">
+        <img src="bar2.png">
+    </div>
+
+    <span class="col-md-3"></span>
+
+
+    <div class="container col-md-6">
+
+
+                <h1 align="center"> Attendance System</h1>
+
+                <form method="post" action="/login">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="userId" type="text" class="form-control" name="userId" placeholder="UserId">
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="password" type="password" class="form-control" name="password"
+                               placeholder="Password">
+                    </div>
+
+
+                    <div class="checkbox" align="center">
+                        <label><input type="checkbox"> Remember me</label>
+                    </div>
+                    <div align="center">
+                        <button type="submit" class="btn btn-primary"> Submit</button>
+                        <button type="button" class="btn btn-danger">Cancel</button>
+                    </div>
+                    <br>
+                </form>
+
+
+    </div>
+        <span class="col-md-3"></span>
+</div>
+
+
+<footer>
+    <div align="center" class="col-md-12">
+        © 2017 M.L.T Inc. All Rights Reserved.
+    </div>
+</footer>
+
+</body>
+
+
+</html>
+
+

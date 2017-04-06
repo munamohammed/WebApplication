@@ -1,0 +1,38 @@
+html, body, h1, h2, h3, h4, h5 {
+    font-family: "Raleway", sans-serif
+
+}
+body{
+    height: 100%;
+}
+#cal {
+    color: black
+}
+
+.banner {
+    width: 100%;
+    display: block;
+    padding-top: 35px;
+}
+
+img {
+    width: 100%;
+    display: block;
+}
+
+.bar {
+    width: 100%;
+    display: block;
+}
+
+nav {
+    margin-top: 5px;
+}
+
+#cont {
+    width: 76.7%;
+    height: 500px;
+    float: right;
+
+
+}

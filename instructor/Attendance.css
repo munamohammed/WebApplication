@@ -1,0 +1,31 @@
+
+
+banner{
+    width: 100%;
+    color: rgba(10,30,94,0.11);
+    height:20%;
+    overflow: visible;
+
+}
+
+
+.panel-info{
+    padding-top: 20px;
+    background-color: red;
+    height: 100%;
+    float: left;
+    width: 20%;
+
+}
+
+main{
+width: 80%;
+    background-color: aliceblue;
+
+}
+
+footer {
+    background-color: #555;
+    color: white;
+    padding: 15px;
+}

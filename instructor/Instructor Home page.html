@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<title>Instructor Home page</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<style>
+    html, body, h1, h2, h3, h4, h5 {
+        font-family: "Raleway", sans-serif
+    }
+
+
+    .banner {
+        width:100%;
+        display: block;
+    }
+
+    img {
+        width:100%;
+        display: block;
+    }
+    .bar {
+        width:100%;
+        display: block;
+    }
+
+    nav {
+        margin-top: 5px;
+    }
+
+</style>
+
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-container w3-top w3-black w3-large w3-padding" style="z-index:4">
+    <button class="w3-button w3-hide-large w3-padding-0 w3-black w3-hover-none w3-hover-text-light-grey"><i
+            class="fa fa-bars"></i>  Menu
+    </button>
+    <span class="w3-right"><a href="login.html">Logout</a></span>
+</div>
+
+<div class="banner">
+    <img src="../banner-1.png">
+</div>
+
+<div class="bar">
+    <img src="../bar2.png">
+</div>
+
+<!-- Sidenav/menu -->
+<nav class="w3-sidenav w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidenav"><br>
+    <div class="w3-container w3-row">
+        <div class="w3-col s4">
+            <img src="../instructor/userlogo.png" class="w3-circle w3-margin-right" style="width:46px">
+        </div>
+        <div class="w3-col s8">
+            <span>Welcome, <strong>User</strong></span><br>
+            <a href="#" class="w3-hover-none w3-hover-text-red w3-show-inline-block"><i class="fa fa-envelope"></i></a>
+            <a href="#" class="w3-hover-none w3-hover-text-green w3-show-inline-block"><i class="fa fa-user"></i></a>
+            <a href="#" class="w3-hover-none w3-hover-text-blue w3-show-inline-block"><i class="fa fa-cog"></i></a>
+        </div>
+    </div>
+    <hr>
+    <div class="w3-container">
+        <h5>Dashboard</h5>
+    </div>
+    <a href="#" class="w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Students Attendance</a>
+    <a href="#" class="w3-padding"><i class="fa fa-eye fa-fw"></i>  Emails</a>
+    <a href="#" class="w3-padding"><i class="fa fa-users fa-fw"></i>  Statistics</a>
+    <a href="#" class="w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
+</nav>
+
+
+<main>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main" style="margin-left:500px;margin-top:43px;">
+
+        <!-- Header -->
+        <header class="w3-container">
+            <h5><b><i class="fa fa-dashboard"></i> Student Attendance</b></h5>
+        </header>
+
+        <div class="row-padding">
+            <div class="col-md-1">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Class
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Java</a></li>
+                        <li><a href="#">Physics</a></li>
+                        <li><a href="#">Numerical Methods</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-1">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select
+                        Section
+                        <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">L51</a></li>
+                        <li><a href="#">L52</a></li>
+                        <li><a href="#">L53</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <input type="date" name="bday">
+                <span class="caret"></span>
+            </div>
+
+            <div class="col-md-1">
+                <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
+            </div>
+
+        </div>
+
+    </div>
+</main>
+
+
+</body>
+
+<footer>
+
+</footer>
+</html>
