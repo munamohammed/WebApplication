@@ -17,12 +17,13 @@ constructor (){
        this.repo.authenticate(userInfo).then(user=>{
           console.log("user is "+JSON.stringify(user));
           if (user != undefined){
+              req.session.user=user;
               res.redirect('/landing');
           }
           else {
               res.redirect('/login');
           }
-      })
+      });
 //,{message:'User /password not correct'}
 
     }

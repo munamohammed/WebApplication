@@ -76,10 +76,17 @@ let loginController = require('./controllers/LoginController');
 //     .get( (req, res) => heroController.index(req, res) )
 //     .post( (req, res) => heroController.postHero(req, res) )
 
-router.get('/Email', (req, res) => instructorController.emailIndex(req, res))
-router.get('/StudentAttendance', (req, res) => instructorController.attendanceIndex(req, res))
-router.get('/Statistic', (req, res) => instructorController.statistic(req, res))
-router.get('/Setting', (req, res) => instructorController.settingForm(req, res))
+//Instructor
+router.get('/email', (req, res) => instructorController.email(req, res));
+router.get('/studentattendance',(req,res) => instructorController.studentattendance(req,res));
+router.get('/statistics', (req, res) => instructorController.statistic(req, res));
+router.get('/settings', (req, res) => instructorController.setting(req, res))
+
+//Student
+router.get('/getClasses', (req, res) => studentController.getClasses(req,res));
+
+//Admin
+router.get('/checktag', (req, res) => adminController.checktag(req, res));
 
 
 router.get('/login', (req, res) => {
@@ -90,12 +97,26 @@ router.post('/login', (req,res) =>{
     console.log(req.body);
     loginController.authenticate(req,res)
 }) ;
-router.get('/logout', (req, res) => loginController.logout(req, res))
+router.get('/logout', (req, res) => loginController.logout(req, res));
+
 
 
 router.get('/landing', (req, res) => {
-    res.send("Hi");
+
+    let user = req.session.user;
+    if (user){
+        if (user.userType == 's')
+            studentController.StudentLanding(req,res);
+        else if (user.userType == 'i')
+            instructorController.InstructorLanding(req,res);
+        else if (user.userType == 'a')
+            adminController.AdmintLanding(req,res);
+    } else {
+        res.status(500).send("User Not Found in the cookie");
+    }
 });
+
+
 
 //Middleware to intercept requests and redirect to the login page if the user is not logged-in. Only apllies to /students and /heroes
 function isAuthenticated(req, res, next) {
