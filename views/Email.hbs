@@ -8,38 +8,27 @@
         <div class="w3-row-padding w3-margin-bottom">
 
             <!--<div class="w3-threequarter">-->
-
-            <div class="w3-quarter">
+            <div class="w3-threequarter">
                 <div class="w3-container w3-padding-16">
+                    <div>
+                        <label>Select Student ID:</label>
+                    </div>
+                    <input style="width: 40%" list="students" id="searchstudent" name="searchstudent" value="{{data}}">
+                    <datalist id="students">
+                        {{#students}}
+                        <option value="{{ID}}-{{First_name}} {{Last_name}}">
+                        {{/students}}
 
-                    <div class="w3-clear"></div>
-                    <div>
-                        <label>Select Student Id:</label>
-                        <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
-                    </div>
-                    <div>
-                        <input id="cal" type="date" name="bday">
-                    </div>
+                    </datalist>
+
+                    <button type="submit" class="btn btn-primary" onclick="getEmails({{currentUser.userId}})">Search</button>
 
                 </div>
             </div>
 
 
+            <div id="emails"></div>
 
-            <table style="width: 70%; margin-left:20px" id="AttendanceList">
-
-                <tr>
-                    <th>Subject</th>
-                    <th>To</th>
-                    <th>Time</th>
-                </tr>
-                <tr>
-                    <td>{{Subject}}</td>
-                    <td style="width: 40%">{{First_name}}-{{Last_name}}</td>
-                    <td>{{Sendtime}}</td>
-                </tr>
-
-            </table>
 
             <!--</div>-->
             <!--<div class="w3-quarter"></div>-->
@@ -48,3 +37,5 @@
         <!-- End page content -->
     </div>
 </div>
+
+<script src="views/js/Email.js"></script>

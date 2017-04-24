@@ -142,15 +142,24 @@ async function SaveAttendance(){
         }
 
     })
+    if(changes.length==0){
+        alert('No Changes were made !')
+        return;  //exit
+    }
     //alert(JSON.stringify(changes));
-    let requestBody = new FormData();
-    let data = {CRN:CRN,date:date,changes:changes};
-    requestBody.append('json',JSON.stringify(data));
+    let requestBody = {CRN:CRN,date:date,changes:changes};
 
     let url = '/update/attendance/';
-    data = await fetch(url,{method:'post',body:requestBody});
+    let data = await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, method: 'POST', body: JSON.stringify(requestBody)
+    });
 
-        $('#approvediv').html('You have changed attendance of ${data} Student in this lecture')
+
+
+    $('#approvediv').html(`Your changes have been saved for this lecture`)
 
 }
 

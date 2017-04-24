@@ -50,7 +50,7 @@ function isAuthenticated(req, res, next) {
 }
 
 //Instructor
-router.get('/email', (req, res) => instructorController.email(req, res));
+router.get('/Email', (req, res) => instructorController.getEmails(req, res));
 router.get('/studentattendance',(req,res) => instructorController.studentattendance(req,res));
 router.get('/statistics', (req, res) => instructorController.statistic(req, res));
 router.get('/settings', (req, res) => instructorController.setting(req, res));
@@ -60,6 +60,7 @@ router.get('/attendance/:CRN/:date',(req,res) => instructorController.getSection
 router.get('/approval/:CRN/:date', (req,res) => instructorController.getSectionApproval(req,res));
 router.get('/save/:CRN/:date', (req,res) => instructorController.ApproveLecture(req,res));
 router.post('/update/attendance/', (req,res)=> instructorController.UpdateAttendance(req,res));
+router.get('/emails/:instId/:Student_id' , (req,res)=> instructorController.getInstEmails(req,res));
 
 //Student
 router.get('/getClasses', (req, res) => studentController.getClasses(req,res));

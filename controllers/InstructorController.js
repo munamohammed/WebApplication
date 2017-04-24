@@ -1,3 +1,4 @@
+
 /**
  * Created by muna on 4/1/17.
  */
@@ -15,9 +16,19 @@ class InstructorController {
         res.render('StudentAttendance',{currentUser: req.session.user, instructor:true,classes });
     }
 
-    email(req, res){
-        res.render('Email',{currentUser: req.session.user, instructor:true });
+    async getEmails(req, res){
+        let students = await repo.getInstructorStudents(req.session.user.userId);
+        res.render('Email',{currentUser: req.session.user, instructor:true ,students});
     }
+
+    async getInstEmails(req, res){
+        let student_id = req.params.Student_id;
+        let inst_id = req.params.instId;
+        let emails = await repo.getStudentEmails(student_id,inst_id);
+
+        res.json(emails);
+    }
+
 
     statistic(req, res){
         res.render('Statistic',{currentUser: req.session.user, instructor:true });
@@ -78,14 +89,17 @@ class InstructorController {
     }
 
     async UpdateAttendance(req,res){
-        let data = await req; // convert from text to json object
-        console.log(data);
+        //  let data = await req; // convert from text to json object
+        //  console.log(data);
         let CRN = req.body.CRN;
         let date = req.body.date;
         let changes = req.body.changes;
 
-        let numChanges = await repo.UpdateAttendance(CRN,date,changes);
-        res.json(numChanges);
+        await repo.UpdateAttendance(CRN,date,changes).then(numChanges=>{
+            console.log("numOfChanges=" + numChanges)
+            res.json(numChanges);
+        })
+
 
     }
 }
