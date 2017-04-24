@@ -1,0 +1,40 @@
+<div class="w3-main" style="margin-top:30px;">
+    <div class="w3-light-grey">
+        <!-- Header -->
+        <header class="w3-container" style="padding-bottom:15px">
+            <h5 class="w3-large"><b><i class="fa fa-dashboard"></i> Course: {{CourseName}}</b></h5>
+        </header>
+        <style>
+            td {
+                border: 1px solid gray;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
+
+        <table style="width: 70%; margin-left:20px">
+            <tr>
+            <th>Day</th>
+            <th>Lecture Date</th>
+            <th>Attend Time</th>
+            <th>Leave Time</th>
+            <th>Late</th>
+            <th>Absent</th>
+            </tr>
+            {{#details}}
+                <tr>
+                    <td>{{dayname}}</td>
+                    <td>{{lectureDate}}</td>
+                    <td>{{attendtime}}</td>
+                    <td>{{leavetime}}</td>
+                    <td><input type="checkbox" disabled {{#if IsLate}} checked {{/if}}></td>
+                    <td><input type="checkbox" disabled {{#if IsAbsent}} checked {{/if}} ></td>
+                </tr>
+
+            {{/details}}
+        </table>
+
+
+        <!-- End page content -->
+    </div>
+</div>

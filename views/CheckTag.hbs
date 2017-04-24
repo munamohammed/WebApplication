@@ -5,6 +5,48 @@
             <h5><b><i class="fa fa-dashboard"></i> Tag Checker</b></h5>
         </header>
 
+        <style>
+            th, td {
+                border: 1px solid gray;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
+
+
+        <form method="post" action="/studentTag">
+        <input style="margin-left: 20px ; width: 20%" list="students" id="searchstudent" name="searchstudent" value="{{data}}">
+        <datalist id="students">
+        {{#students}}
+            <option value="{{ID}}-{{First_name}} {{Last_name}}">
+        {{/students}}
+
+        </datalist>
+
+        <button type="submit" class="btn btn-primary">Search</button>
+
+
+        </form>
+        {{#if tags}}
+        <table style="width: 70%; margin-left:20px">
+            <tr>
+                <th>Serial number</th>
+                <th>Active</th>
+            </tr>
+            {{# tags}}
+                <tr>
+                    <td>{{Serial_no}}</td>
+                    <td><input type="checkbox" disabled {{#if Active}} checked {{/if}}></td>
+                </tr>
+            {{/tags}}
+        </table>
+        <br>
+            <form method="post" action="/student/tag" id="NewTag">
+                <input type="hidden" value="{{data}}" name="searchstudent">
+                <button  style="margin-left: 20px" type="submit" class="btn btn-primary">Add Tag</button>
+            </form>
+
+        {{/if}}
 
 
         <!-- End page content -->

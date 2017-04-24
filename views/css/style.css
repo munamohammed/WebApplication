@@ -29,10 +29,66 @@ nav {
     margin-top: 5px;
 }
 
-#cont {
-    width: 76.7%;
-    height: 500px;
-    float: right;
 
 
+#ClassList {
+    width: 70%;
 }
+
+
+.styled select {
+    background: steelblue;
+    width: 350px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px;
+}
+
+.styled{
+    width: 450px;
+    height: 34px;
+    color: white;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+table, td, th {
+    border: 1px solid black;
+    text-align: left;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    padding: 10px;
+}
+
+th {
+    background-color: darkgray;
+    color: white;
+}
+
+tr:hover {
+    background-color: whitesmoke;
+}
+
+.yellow{
+    background-color : yellow !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+
+.green{
+    background-color : green !important;
+    background-image :none !important;
+    color: #ffffff !important;
+}
+
+.profile{
+    width: 50px;
+    height: 60px;
+}
+

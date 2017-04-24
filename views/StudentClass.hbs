@@ -1,10 +1,31 @@
 <div class="w3-main" style="margin-top:30px;">
     <div class="w3-light-grey">
         <!-- Header -->
-        <header class="w3-container" style="padding-top:0px" style="padding-right:100px">
-            <h5><b><i class="fa fa-dashboard"></i> Students Classes</b></h5>
+        <header class="w3-container" style="padding-bottom:15px">
+            <h5 class="w3-large"><b><i class="fa fa-dashboard"></i> Students Classes:</b></h5>
         </header>
+        <style>
+            td {
+                border: 1px solid gray;
+                text-align: left;
+                padding: 8px;
+            }
+        </style>
 
+        <table style="width: 70%; margin-left:20px" id="ClassList">
+            {{#Class}}
+
+            <tr>
+                <td style="width: 40%">{{CourseName}}</td>
+                <td><div style="width:100%" class="w3-grey w3-round-xlarge">
+                    <div class="w3-container w3-blue w3-round-xlarge" style="width:25%">25%</div>
+                    </div>
+                </td>
+                <td class="classListCol"><a href="/getClasses/{{CRN}}">View Details</a></td>
+            </tr>
+
+            {{/Class}}
+        </table>
 
 
         <!-- End page content -->

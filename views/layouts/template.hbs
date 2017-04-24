@@ -4,11 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/views/css/style.css">
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <style>
     html, body, h1, h2, h3, h4, h5 {
         font-family: "Raleway", sans-serif
@@ -41,13 +54,7 @@
         margin-top: 5px;
     }
 
-    #cont {
-        width: 76.7%;
-        height: 500px;
-        float: right;
 
-
-    }
 </style>
 <body class="w3-light-grey">
 
@@ -70,55 +77,55 @@
 
 
 
-{{#if instructor }}
-<!------Sidebar/menu ------>
-<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidenav"><br>
-    <div class="w3-container">
-        <h5>Dashboard</h5>
-    </div>
-    <a href="/studentattendance" target="cont" class="w3-padding w3-blue"><i class="fa fa-users fa-fw"></i> Students Attendance</a>
-    <a href="/email" target="cont" class="w3-padding"><i class="fa fa-eye fa-fw"></i>  Emails</a>
-    <a href="/statistics" target="cont" class="w3-padding"><i class="fa fa-users fa-fw"></i>  Statistics</a>
-    <a href="/settings" target="cont" class="w3-padding"><i class="fa fa-cog fa-fw"></i>  Settings</a><br><br>
-</nav>
 
-<!-- Overlay effect when opening sidenav on small screens -->
-<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer"
-     title="close side menu" id="myOverlay"></div>
+
+{{#if instructor }}
+    <!------Sidebar/menu ------>
+    <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+
+        <div class="w3-container">
+            <h5 class="w3-xlarge">☰ Dashboard</h5>
+        </div>
+        <hr>
+
+        <div class="w3-bar-block">
+            <a href="/studentattendance"  class="w3-bar-item w3-button"><i class="fa fa-users fa-fw"></i> Students Attendance</a>
+            <a href="/email"  class="w3-bar-item w3-button"><i class="fa fa-envelope"></i>  Emails</a>
+            <a href="/statistics"  class="w3-bar-item w3-button"><i class="fa fa-users fa-fw"></i>  Statistics</a>
+            <a href="/settings"  class="w3-bar-item w3-button"><i class="fa fa-cog fa-fw"></i>  Settings</a>
+
+        </div>
+    </nav>
+    <!-- Overlay effect when opening sidebar on small screens -->
+    <div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay">
+    </div>
 {{/if}}
 <!-- !PAGE CONTENT! -->
 {{{body}}}
+<!-- End page content -->
 
-<!--<div class="w3-clear"></div>
-&lt;!&ndash; Footer &ndash;&gt;
-<footer class="w3-container w3-padding-16 w3-light-grey">
-    <h4>FOOTER</h4>
-    <p>Powered by <a href="https://qu.edu.qa" target="_blank">M.L.T</a></p>
-</footer>
-
-<div class="w3-clear"></div>-->
 
 <script>
-    // Get the Sidenav
-    var mySidenav = document.getElementById("mySidenav");
+    // Get the Sidebar
+    var mySidebar = document.getElementById("mySidebar");
 
     // Get the DIV with overlay effect
     var overlayBg = document.getElementById("myOverlay");
 
-    // Toggle between showing and hiding the sidenav, and add overlay effect
+    // Toggle between showing and hiding the sidebar, and add overlay effect
     function w3_open() {
-        if (mySidenav.style.display === 'block') {
-            mySidenav.style.display = 'none';
+        if (mySidebar.style.display === 'block') {
+            mySidebar.style.display = 'none';
             overlayBg.style.display = "none";
         } else {
-            mySidenav.style.display = 'block';
+            mySidebar.style.display = 'block';
             overlayBg.style.display = "block";
         }
     }
 
-    // Close the sidenav with the close button
+    // Close the sidebar with the close button
     function w3_close() {
-        mySidenav.style.display = "none";
+        mySidebar.style.display = "none";
         overlayBg.style.display = "none";
     }
 </script>

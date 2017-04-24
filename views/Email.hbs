@@ -14,7 +14,8 @@
 
                     <div class="w3-clear"></div>
                     <div>
-                        <label>Select date:</label>
+                        <label>Select Student Id:</label>
+                        <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
                     </div>
                     <div>
                         <input id="cal" type="date" name="bday">
@@ -22,15 +23,23 @@
 
                 </div>
             </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div><br></div>
-                    <div>
-                        <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
-                    </div>
-                </div>
-            </div>
+
+
+
+            <table style="width: 70%; margin-left:20px" id="AttendanceList">
+
+                <tr>
+                    <th>Subject</th>
+                    <th>To</th>
+                    <th>Time</th>
+                </tr>
+                <tr>
+                    <td>{{Subject}}</td>
+                    <td style="width: 40%">{{First_name}}-{{Last_name}}</td>
+                    <td>{{Sendtime}}</td>
+                </tr>
+
+            </table>
 
             <!--</div>-->
             <!--<div class="w3-quarter"></div>-->

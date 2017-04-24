@@ -1,3 +1,5 @@
+<script src="/views/js/DatePicker.js"></script>
+
 <div class="w3-main" style="margin-left:300px;margin-top:43px;">
     <div class="w3-light-grey">
         <!-- Header -->
@@ -5,63 +7,66 @@
             <h5><b><i class="fa fa-dashboard"></i> Students Attendance</b></h5>
         </header>
 
+
+
         <div class="w3-row-padding w3-margin-bottom">
 
             <!--<div class="w3-threequarter">-->
 
-            <div class="w3-quarter">
+            <div class="w3-halfquarter">
                 <div class="w3-container w3-padding-16">
-
-
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Class
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Java</a></li>
-                            <li><a href="#">Physics</a></li>
-                            <li><a href="#">Numerical Methods</a></li>
-                        </ul>
+                    <label>Class:</label>
+                        <div class="styled">
+                            <select id="selectclass" onchange="loadCourseSection({{currentUser.userId}})">
+                                <option selected>Select Class</option>
+                                {{#classes}}
+                                    <option value="{{CourseCode}}"><a href="javascript:void(0);" >{{CourseName}}-{{CourseCode}}</a></option>
+                                {{/classes}}
+                            </select>
+                        </div>
+                </div>
+            </div>
+
+            <div class="w3-halfquarter">
+                <div class="w3-container w3-padding-16">
+                    <div class="w3-clear"></div>
+                    <label>Section:</label>
+                    <div class="styled">
+                        <select id="sectionList" onchange="loadClassDates()"></select>
                     </div>
                 </div>
             </div>
+
             <div class="w3-quarter">
                 <div class="w3-container w3-padding-16">
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select
-                            Section
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">L51</a></li>
-                            <li><a href="#">L52</a></li>
-                            <li><a href="#">L53</a></li>
-                        </ul>
-                    </div>
+                    <label>Lecture Date:</label>
+                    <div><input id="datepicker" type="text" name="bday"></div>
                 </div>
             </div>
+
             <div class="w3-quarter">
                 <div class="w3-container w3-padding-16">
-
                     <div class="w3-clear"></div>
+                    <label></label>
                     <div>
-                        <input id="cal" type="date" name="bday">
+                        <button type="button" onclick="DisplayAttendance()" class="w3-button w3-grey w3-round w3-border">Search</button>
                     </div>
+                </div>
+            </div>
 
-                </div>
-            </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div>
-                        <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
-                    </div>
-                </div>
-            </div>
-            <!--</div>-->
-            <!--<div class="w3-quarter"></div>-->
+
+            <div id="attendanceTable"></div>
+
+
+
+
+
         </div>
 
         <!-- End page content -->
     </div>
 </div>
+
+<script src="views/js/StudentAttendance.js"></script>
