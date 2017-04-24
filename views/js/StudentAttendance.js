@@ -1,6 +1,6 @@
 $(document).ready(()=>{
     $('#Course').on('change',()=>{
-        alert('muna');
+
     })
 })
 

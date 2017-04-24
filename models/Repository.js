@@ -51,8 +51,8 @@ class Repository {
             }
         })
     }
-
-    /*   getRFServiceReading(){ // connect to the temporary database (RF Service)
+/*
+       getRFServiceReading(){ // connect to the temporary database (RF Service)
      remoteMysql.configure ({
      host     : '192.168.1.53', // IP of the PC running the RF Service
      user     : 'root',
@@ -85,7 +85,8 @@ class Repository {
      })
      })
 
-     }*/
+     }
+     */
     async getStudentClassesAttendance(studentId) {
         let query = `SELECT Enrollment.CRN , Section.CourseCode, Course.CourseName, 10 as absence 
             from Enrollment inner join Section on Enrollment.CRN = Section.CRN 

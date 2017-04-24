@@ -35,8 +35,10 @@ class InstructorController {
 
     }
 
-    setting(req, res){
-        res.render('Setting',{currentUser: req.session.user, instructor:true });
+
+    async setting(req, res){
+        let classes = await repo.getInstClasses(req.session.user.userId);
+        res.render('Setting',{currentUser: req.session.user, instructor:true,classes });
     }
 
 

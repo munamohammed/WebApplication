@@ -9,58 +9,53 @@
 
             <!--<div class="w3-threequarter">-->
 
-            <div class="w3-quarter">
+            <div class="w3-halfquarter">
                 <div class="w3-container w3-padding-16">
-
-
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Class
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Java</a></li>
-                            <li><a href="#">Physics</a></li>
-                            <li><a href="#">Numerical Methods</a></li>
-                        </ul>
+                    <label>Class:</label>
+                    <div class="styled">
+                        <select id="selectclass" onchange="loadCourseSection({{currentUser.userId}})">
+                            <option selected>Select Class</option>
+                            {{#classes}}
+                                <option value="{{CourseCode}}"><a href="javascript:void(0);" >{{CourseName}}-{{CourseCode}}</a></option>
+                            {{/classes}}
+                            <option value="all">All</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="w3-quarter">
+
+            <div class="w3-halfquarter">
                 <div class="w3-container w3-padding-16">
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select
-                            Section
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">L51</a></li>
-                            <li><a href="#">L52</a></li>
-                            <li><a href="#">L53</a></li>
-                        </ul>
+
+                    <div class="styled" id="sectionDiv">
+                        <label>Section:</label>
+                        <select id="sectionList" onchange="onSectionListChange()"></select>
                     </div>
                 </div>
             </div>
-            <br>
 
             <div class="w3-threequarter">
                 <div class="w3-container">
                     <div style="width: 40%; float: left" >
                         <label>Send report:</label><br>
-                        <input type="checkbox" name="vehicle" value="day"> Daily<br>
-                        <input type="checkbox" name="vehicle" value="week"> Weekly<br>
-                        <input type="checkbox" name="vehicle" value="month"> Monthly<br>
-                        <input type="checkbox" name="vehicle" value="none"> None
+                        <input class="setting" id="dailyCheck" data-state='0' onchange="reportTimeCheck(this)" type="checkbox"  value="day" disabled> Daily<br>
+                        <input class="setting" id="weeklyCheck" data-state='0' onchange="reportTimeCheck(this)" type="checkbox"  value="week" disabled> Weekly<br>
+                        <input class="setting" id="monthlyCheck" data-state='0' onchange="reportTimeCheck(this)" type="checkbox"  value="month" disabled> Monthly<br>
+                        <input class="setting" id="noneCheckReport" data-state='0' onchange="reportTimeCheck(this)" type="checkbox"  value="none" disabled> None
                     </div>
                     <div style="width: 50%; clear: right">
                         <label>Send alert:</label><br>
-                        <input type="checkbox" name="vehicle" value="teen"> 10%<br>
-                        <input type="checkbox" name="vehicle" value="fifteen"> 15%<br>
-                        <input type="checkbox" name="vehicle" value="tweenty"> 20%<br>
-                        <input type="checkbox" name="vehicle" value="tweentyfive"> 25%
+                        <input class="setting"id="teenCheck" data-state='0' onchange="alertTimeCheck(this)" type="checkbox"  value="teen" disabled> 10%<br>
+                        <input class="setting" id="fiftenCheck" data-state='0' onchange="alertTimeCheck(this)" type="checkbox"  value="fifteen" disabled> 15%<br>
+                        <input class="setting" id="tweentyCheck" data-state='0' onchange="alertTimeCheck(this)" type="checkbox"  value="tweenty" disabled> 20%<br>
+                        <input class="setting" id="tweentyfiveCheck" data-state='0' onchange="alertTimeCheck(this)" type="checkbox"  value="tweentyfive" disabled> 25%<br>
+                        <input class="setting" id="noneCheckAlert" data-state='0' onchange="alertTimeCheck(this)" type="checkbox"  value="none" disabled> None
                     </div>
 
                     <div>
-                        <button type="button" class="w3-button w3-grey w3-round w3-border" style="margin-top: 10px">Save</button>
+                        <button type="button" onclick="SaveSettings()" class="w3-button w3-grey w3-round w3-border" style="margin-top: 10px">Save</button>
                     </div>
 
                 </div>
@@ -76,3 +71,5 @@
         <!-- End page content -->
     </div>
 </div>
+
+<script src="views/js/Setting.js"></script>
