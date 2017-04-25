@@ -9,34 +9,27 @@
 
             <!--<div class="w3-threequarter">-->
 
-            <div class="w3-quarter">
+            <div class="w3-threequarter">
                 <div class="w3-container w3-padding-16">
-
-
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Class
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Java</a></li>
-                            <li><a href="#">Physics</a></li>
-                            <li><a href="#">Numerical Methods</a></li>
-                        </ul>
+
+                    <div class="styled">
+                        <select id="selectclass" onchange="loadCourseSection({{currentUser.userId}})">
+                            <option selected>Select Class</option>
+                            {{#classes}}
+                                <option value="{{CourseCode}}"><a href="javascript:void(0);" >{{CourseName}}-{{CourseCode}}</a></option>
+                            {{/classes}}
+                            <option value="all">All</option>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="w3-quarter">
+            <div class="w3-threequarter">
                 <div class="w3-container w3-padding-16">
                     <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select
-                            Section
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">L51</a></li>
-                            <li><a href="#">L52</a></li>
-                            <li><a href="#">L53</a></li>
-                        </ul>
+                    <div class="styled" id="sectionDiv">
+
+                        <select id="sectionList" onchange="onSectionListChange()"></select>
                     </div>
                 </div>
             </div>
@@ -106,3 +99,5 @@
         <!-- End page content -->
     </div>
 </div>
+
+<script src="views/js/Setting.js"></script>

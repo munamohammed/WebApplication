@@ -31,7 +31,7 @@ async function loadCourseSection(InstId) {
     let url = `/course/${CourseCode}/${InstId}`;
     //console.log("CourseCode = "+CourseCode);
     let template = ` 
-                            <option selected> Select Section</option>
+                            <option selected>Select Section</option>
                              {{#sections}}
                              <option value="{{CRN}}">{{SectionNo}}</option>
                             {{/sections}}
