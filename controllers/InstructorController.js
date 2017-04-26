@@ -104,6 +104,15 @@ class InstructorController {
 
 
     }
+
+    async UpdateSettings(req,res){
+        let CRN = req.body.CRN;
+        let CourseCode = req.body.CourseCode;
+        let changes = req.body.changes;
+        let instId = req.session.user.userId;
+        await repo.UpdateSettings(instId,CRN,CourseCode,changes);
+
+    }
 }
 
 module.exports = new InstructorController();

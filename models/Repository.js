@@ -225,6 +225,15 @@ class Repository {
         })
     }
 
+    async getInstSections(instId) {
+        let query = `select distinct CRN From  Section 
+            where InstructorID = ${instId}`;
+
+        return mysql.query(query).spread(rows => {
+            return rows;
+        })
+    }
+
 
     async getClassSections(instId, CourseCode) {
         let query = `select Course.CourseCode , Section.SectionNo , Section.CRN From  Course 
@@ -369,6 +378,86 @@ class Repository {
         return mysql.query(query).spread(rows => {
             return rows;
         })
+    }
+
+    async deleteAllInstSectionsSettings(instId){
+        let sections = await this.getInstSections(instId);
+        let temp = '';
+        sections.map((s)=>{
+            if (temp != ''){
+                temp += ','
+            }
+            temp += s.CRN;
+        })
+
+        let query = `delete from Settings where CRN in (${temp})`; // delete from setting table all CRN taught by that InstId
+        return mysql.query(query).spread(rows => {
+            console.log("Rows= " + JSON.stringify(rows));
+            return rows.affectedRows;
+
+        })
+
+}
+
+    async deleteAllInstCourseSettings (instId,CourseCode){
+
+    }
+
+    async applySettingChanges(CRN,changes){
+        return Promise.all (changes.map((c)=>{
+            let query = '';
+            if (c.change == 'insert'){
+                query = `insert into Settings (CRN,settingType,settingSubtype) values (${CRN},'${c.settingType}','${c.settingSubtype}')`;
+
+            }
+            else {
+                query = `delete from Settings where CRN= ${CRN} and settingType= '${c.settingType}' and settingSubtype='${c.settingSubtype}'`;
+            }
+
+            return mysql.query(query).spread(rows => {
+                console.log("Rows= " + JSON.stringify(rows));
+                return rows.affectedRows;
+
+            })
+        }))
+    }
+
+    async applySettingToAllCourses(instId,changes){
+        await this.deleteAllInstSectionsSettings(instId);
+        let sections = await this.getInstSections(instId);
+
+            sections.map((s)=>{
+               this.applySettingChanges(s.CRN,changes);// apply to all sections of this instructor
+            })
+
+    }
+
+    async applySettingToAllCourseSections(instId,CourseCode,changes){
+        await this.deleteAllInstSectionsSettings(instId);
+        let sections = await this.getClassSections(instId,CourseCode);
+
+        sections.map((s)=>{
+            this.applySettingChanges(s.CRN,changes);// apply to all sections of this instructor
+        })
+    }
+
+    async applySettingToCourseSection(CRN,changes){
+
+    }
+
+    async UpdateSettings(instId,CRN,CourseCode,changes){
+        if (CRN == 'all')
+            if (CourseCode == 'all')
+                this.applySettingToAllCourses(instId,changes);
+            else
+                this.applySettingToAllCourseSections(CourseCode,changes);
+        else
+            this.applySettingToCourseSection(CRN,changes);
+
+
+
+
+
     }
 }
 

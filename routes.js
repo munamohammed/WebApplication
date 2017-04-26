@@ -61,6 +61,7 @@ router.get('/approval/:CRN/:date', (req,res) => instructorController.getSectionA
 router.get('/save/:CRN/:date', (req,res) => instructorController.ApproveLecture(req,res));
 router.post('/update/attendance/', (req,res)=> instructorController.UpdateAttendance(req,res));
 router.get('/emails/:instId/:Student_id' , (req,res)=> instructorController.getInstEmails(req,res));
+router.post('/update/settings/', (req,res)=>instructorController.UpdateSettings(req,res));
 
 //Student
 router.get('/getClasses', (req, res) => studentController.getClasses(req,res));

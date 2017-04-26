@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="4bc5b770-5d3b-4a87-a3f4-17a8b245ccff" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/controllers/InstructorController.js" afterPath="$PROJECT_DIR$/controllers/InstructorController.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Repository.js" afterPath="$PROJECT_DIR$/models/Repository.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes.js" afterPath="$PROJECT_DIR$/routes.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/Setting.hbs" afterPath="$PROJECT_DIR$/views/Setting.hbs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/Statistic.hbs" afterPath="$PROJECT_DIR$/views/Statistic.hbs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/js/Setting.js" afterPath="$PROJECT_DIR$/views/js/Setting.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layouts/template.hbs" afterPath="$PROJECT_DIR$/views/layouts/template.hbs" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,8 +29,8 @@
       <file leaf-file-name="routes.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="59" column="98" lean-forward="false" selection-start-line="59" selection-start-column="98" selection-end-line="59" selection-end-column="98" />
+            <state relative-caret-position="240">
+              <caret line="63" column="61" lean-forward="false" selection-start-line="63" selection-start-column="61" selection-end-line="63" selection-end-column="61" />
               <folding />
             </state>
           </provider>
@@ -38,17 +40,17 @@
         <entry file="file://$PROJECT_DIR$/controllers/InstructorController.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="256">
-              <caret line="39" column="73" lean-forward="false" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="73" />
+              <caret line="112" column="41" lean-forward="false" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Repository.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Repository.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/models/Repository.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="19" lean-forward="true" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
+            <state relative-caret-position="406">
+              <caret line="443" column="32" lean-forward="true" selection-start-line="443" selection-start-column="32" selection-end-line="443" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -57,8 +59,8 @@
       <file leaf-file-name="Setting.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/Setting.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="334">
-              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="43" />
+            <state relative-caret-position="45">
+              <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -66,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Statistic.hbs" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Statistic.hbs" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/Statistic.hbs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="23" column="26" lean-forward="true" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+            <state relative-caret-position="150">
+              <caret line="56" column="50" lean-forward="false" selection-start-line="56" selection-start-column="50" selection-end-line="56" selection-end-column="50" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
               </folding>
@@ -118,8 +120,8 @@
       <file leaf-file-name="Setting.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/js/Setting.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="33" column="68" lean-forward="false" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
+            <state relative-caret-position="135">
+              <caret line="41" column="37" lean-forward="false" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
               <folding>
                 <element signature="e#0#38#0" expanded="false" />
               </folding>
@@ -152,19 +154,19 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/routes.js" />
         <option value="$USER_HOME$/Dropbox/Senior/Web Application/senior/views/Email.hbs" />
         <option value="$PROJECT_DIR$/views/Email.hbs" />
         <option value="$PROJECT_DIR$/views/js/Email.js" />
         <option value="$USER_HOME$/Dropbox/Senior/Web Application/senior/views/js/StudentAttendance.js" />
         <option value="$PROJECT_DIR$/models/RepositoryTest.js" />
-        <option value="$PROJECT_DIR$/models/Repository.js" />
         <option value="$PROJECT_DIR$/views/js/StudentAttendance.js" />
-        <option value="$PROJECT_DIR$/controllers/InstructorController.js" />
         <option value="$PROJECT_DIR$/views/layouts/template.hbs" />
-        <option value="$PROJECT_DIR$/views/Setting.hbs" />
-        <option value="$PROJECT_DIR$/views/js/Setting.js" />
         <option value="$PROJECT_DIR$/views/Statistic.hbs" />
+        <option value="$PROJECT_DIR$/routes.js" />
+        <option value="$PROJECT_DIR$/views/Setting.hbs" />
+        <option value="$PROJECT_DIR$/controllers/InstructorController.js" />
+        <option value="$PROJECT_DIR$/views/js/Setting.js" />
+        <option value="$PROJECT_DIR$/models/Repository.js" />
       </list>
     </option>
   </component>
@@ -379,7 +381,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1493023103984</updated>
-      <workItem from="1493023105418" duration="10719000" />
+      <workItem from="1493023105418" duration="15864000" />
     </task>
     <task id="LOCAL-00001" summary="Monday 24/4">
       <created>1493027665192</created>
@@ -395,11 +397,18 @@
       <option name="project" value="LOCAL" />
       <updated>1493037783949</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Modify Statistics 25/4">
+      <created>1493144907285</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1493144907285</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10719000" />
+    <option name="totallyTimeSpent" value="15864000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="827" extended-state="0" />
@@ -435,7 +444,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Monday 24/4" />
     <MESSAGE value="Modify Settings 24/4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Modify Settings 24/4" />
+    <MESSAGE value="Modify Statistics 25/4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Modify Statistics 25/4" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -472,22 +482,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Repository.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="19" lean-forward="true" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="59" column="98" lean-forward="false" selection-start-line="59" selection-start-column="98" selection-end-line="59" selection-end-column="98" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/js/Email.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
@@ -506,14 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
           <caret line="40" column="41" lean-forward="false" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/InstructorController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="39" column="73" lean-forward="false" selection-start-line="39" selection-start-column="73" selection-end-line="39" selection-end-column="73" />
           <folding />
         </state>
       </provider>
@@ -567,33 +553,57 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/routes.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="63" column="61" lean-forward="false" selection-start-line="63" selection-start-column="61" selection-end-line="63" selection-end-column="61" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/InstructorController.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="112" column="41" lean-forward="false" selection-start-line="112" selection-start-column="41" selection-end-line="112" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/views/js/Setting.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="33" column="68" lean-forward="false" selection-start-line="33" selection-start-column="68" selection-end-line="33" selection-end-column="68" />
+        <state relative-caret-position="135">
+          <caret line="41" column="37" lean-forward="false" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
           <folding>
             <element signature="e#0#38#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/Setting.hbs">
+    <entry file="file://$PROJECT_DIR$/views/Statistic.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="43" />
+        <state relative-caret-position="150">
+          <caret line="56" column="50" lean-forward="false" selection-start-line="56" selection-start-column="50" selection-end-line="56" selection-end-column="50" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/Statistic.hbs">
+    <entry file="file://$PROJECT_DIR$/views/Setting.hbs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="23" column="26" lean-forward="true" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="26" />
+        <state relative-caret-position="45">
+          <caret line="39" column="41" lean-forward="true" selection-start-line="39" selection-start-column="41" selection-end-line="39" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/Repository.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="443" column="32" lean-forward="true" selection-start-line="443" selection-start-column="32" selection-end-line="443" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>

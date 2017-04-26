@@ -40,6 +40,7 @@ async function loadCourseSection(InstId) {
     if (CourseCode == 'all'){
         enableAllCheckbox();
         console.log('Sections hide');
+        $('#sectionDiv').val('all');
         $('#sectionDiv').hide();
     }
     else {
@@ -112,24 +113,37 @@ async function SaveSettings() {
 
     let changes = [];
 
-    $('.setting').map((idx,c) => {
+    $('.reportsetting').map((idx,c) => {
 
-        if (c.checked == true && $(c).attr('data-state') =='0'){ // '0' not absent 'true' instructor mark as absent
-            changes.push("1");//{settingType:$(c).attr('data-settingType'),IsAbsent: 1}) // absent == true
+        if (c.checked == true && $(c).attr('data-state') =='0'){ // if reportCheckbox is checked
+            changes.push({settingType:'report', settingSubtype:$(c).attr('value'),change:'insert'}) // insert this setting in the DB
         }
-        else if (c.checked == false && $(c).attr('data-state') =='1'){ //'1' absent 'false' instructor mark as not absent
-            changes.push("2");//{StudentId:$(c).attr('data-Student_id'),IsAbsent: 0}) // absent == false
+        else if (c.checked == false && $(c).attr('data-state') =='1'){ //if reportCheckbox is un-checked
+            changes.push({settingType:'report', settingSubtype:$(c).attr('value'),change:'remove'}) // delete this setting in the DB
         }
 
     })
+
+
+    $('.alertsetting').map((idx,c) => {
+
+        if (c.checked == true && $(c).attr('data-state') =='0'){ // if reportCheckbox is checked
+            changes.push({settingType:'alert', settingSubtype:$(c).attr('value'),change:'insert'}) // insert this setting in the DB
+        }
+        else if (c.checked == false && $(c).attr('data-state') =='1'){ //if reportCheckbox is un-checked
+            changes.push({settingType:'alert', settingSubtype:$(c).attr('value'),change:'remove'}) // delete this setting in the DB
+        }
+
+    })
+    console.log(changes);
     if(changes.length==0){
         alert('No Changes were made !')
         return;  //exit
     }
     //alert(JSON.stringify(changes));
-    let requestBody = {CRN:CRN,date:date,changes:changes};
+    let requestBody = {CRN:CRN,CourseCode: CourseCode,changes:changes};
 
-    let url = '/update/attendance/';
+    let url = '/update/settings/';
     let data = await fetch(url, {
         headers: {
             'Accept': 'application/json',
