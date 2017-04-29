@@ -112,7 +112,17 @@ class InstructorController {
         let instId = req.session.user.userId;
         await repo.UpdateSettings(instId,CRN,CourseCode,changes);
 
+        res.status(200).send();
+
+    }
+
+
+    async getSectionSettings(req,res){
+        let CRN= req.params.CRN;
+        let settingData= await repo.getSectionSettings(CRN);
+        res.json(settingData);
     }
 }
+
 
 module.exports = new InstructorController();

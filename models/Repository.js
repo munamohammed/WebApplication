@@ -399,14 +399,19 @@ class Repository {
 
 }
 
-    async deleteAllInstCourseSettings (instId,CourseCode){
+    async deleteSectionSettings (CRN){
+        let query = `delete from Settings where CRN=${CRN}`; // delete from setting table that CRN settings
+        return mysql.query(query).spread(rows => {
+            console.log("Rows= " + JSON.stringify(rows));
+            return rows.affectedRows;
 
+        })
     }
 
     async applySettingChanges(CRN,changes){
         return Promise.all (changes.map((c)=>{
             let query = '';
-            if (c.change == 'insert'){
+            if (c.change == 'insert' && c.settingSubtype != 'none'){
                 query = `insert into Settings (CRN,settingType,settingSubtype) values (${CRN},'${c.settingType}','${c.settingSubtype}')`;
 
             }
@@ -414,6 +419,7 @@ class Repository {
                 query = `delete from Settings where CRN= ${CRN} and settingType= '${c.settingType}' and settingSubtype='${c.settingSubtype}'`;
             }
 
+            console.log(query);
             return mysql.query(query).spread(rows => {
                 console.log("Rows= " + JSON.stringify(rows));
                 return rows.affectedRows;
@@ -442,10 +448,23 @@ class Repository {
     }
 
     async applySettingToCourseSection(CRN,changes){
+        await this.deleteSectionSettings(CRN);
+        await this.applySettingChanges(CRN,changes);// apply to all sections of this instructor
 
     }
+    async getSectionSettings(CRN){
+        let query = `SELECT *  FROM attendance.Settings
+            where CRN=${CRN} `;
+
+        return mysql.query(query).spread(rows => {
+            return rows;
+        })
+    }
+
+
 
     async UpdateSettings(instId,CRN,CourseCode,changes){
+        console.log("Update Settings function",instId,CRN,CourseCode);
         if (CRN == 'all')
             if (CourseCode == 'all')
                 this.applySettingToAllCourses(instId,changes);

@@ -126,6 +126,10 @@ async function DisplayAttendance() {
 
 }
 
+async function ApproveAttendance() {
+    
+}
+
 async function SaveAttendance(){
     let CRN = $('#sectionList').val();
     let date = $('#datepicker').val();
