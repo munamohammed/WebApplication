@@ -58,11 +58,12 @@ router.get('/course/:CourseCode/:InstId',(req,res) => instructorController.getSe
 router.get('/dates/:CRN',(req,res) => instructorController.getClassDates(req,res));
 router.get('/attendance/:CRN/:date',(req,res) => instructorController.getSectionAttendance(req,res));
 router.get('/approval/:CRN/:date', (req,res) => instructorController.getSectionApproval(req,res));
-router.get('/save/:CRN/:date', (req,res) => instructorController.ApproveLecture(req,res));
+//router.get('/save/:CRN/:date', (req,res) => instructorController.ApproveLecture(req,res));
 router.post('/update/attendance/', (req,res)=> instructorController.UpdateAttendance(req,res));
 router.get('/emails/:instId/:Student_id' , (req,res)=> instructorController.getInstEmails(req,res));
 router.post('/update/settings/', (req,res)=>instructorController.UpdateSettings(req,res));
 router.get('/json/settings/:CRN',(req,res)=>instructorController.getSectionSettings(req,res));
+router.post('/approve/attendance',(req,res) => instructorController.ApproveLecture(req,res));
 //Student
 router.get('/getClasses', (req, res) => studentController.getClasses(req,res));
 router.get('/getClasses/:crn', (req, res) => studentController.getClassDetails(req,res));

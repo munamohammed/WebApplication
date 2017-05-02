@@ -25,10 +25,10 @@ class Repository {
     /*    connect(){
      this.connection.connect((err)=>{
      if ( ! err ){
-     console.log("Connected to MySQL !");
+     //console.log("Connected to MySQL !");
      }
      else {
-     console.log("Cannot Connect to MySQL !"+err);
+     //console.log("Cannot Connect to MySQL !"+err);
      }
      })
      }*/
@@ -37,7 +37,7 @@ class Repository {
     authenticate(userInfo) {
         let query = `select User_ID,First_name,Last_name,user_type from User where User_ID='${userInfo.userId}' and User_password='${userInfo.password}'`;
         return mysql.query(query).spread(rows => {
-            //console.log(JSON.stringify(rows));
+            ////console.log(JSON.stringify(rows));
             if (rows.length == 0) {
                 return undefined;
             }
@@ -76,10 +76,10 @@ class Repository {
      rows.map(r=>{
      let d= moment(r.Reading_date_time);
      let dString = d.format('YYYY-MM-DD HH:mm:ss');
-     console.log(dString);
+     //console.log(dString);
      let insertQuery = `insert into attendance.Reading (Tag_serial_no,Reading_date_time,Reader_Id)
      values ('${r.Tag_serial_no}','${dString}',${r.Reader_id})`;//insert into the table Reading
-     console.log(insertQuery);
+     //console.log(insertQuery);
      return mysql.query(insertQuery).spread (rows => {
      return rows;
      })
@@ -107,7 +107,7 @@ class Repository {
             FROM attendance.StudentAttendance sa
             inner join attendance.Schedule sc on sa.Schedule_id = sc.ScheduleID
             where sa.Student_id = ${studentId} and sc.CRN = ${CRN} `;
-        console.log(query);
+        //console.log(query);
         return mysql.query(query).spread(rows => {
             return rows;
         })
@@ -173,9 +173,9 @@ class Repository {
         let query = `SELECT max(Serial_no) as Serial_no FROM attendance.Rfid_tag`
         return mysql.query(query).spread(rows => {
             let str = rows[0].Serial_no;
-            console.log("*Str = " + str);
+            //console.log("*Str = " + str);
             str = str.replace(/ /g, '');
-            console.log("*Str = " + str);
+            //console.log("*Str = " + str);
             return parseInt(str)
                 ;
         })
@@ -183,10 +183,10 @@ class Repository {
 
     async generateNewTag() {
         let max = await this.getMaxTag();
-        console.log("max: " + max);
+        //console.log("max: " + max);
         max += 1;
         let str = await this.pad(max.toString(), 6); //TO add zeros in the left side of the number
-        console.log("str: " + str);
+        //console.log("str: " + str);
         str = str.charAt(0) + str.charAt(1) + ' ' + str.charAt(2) + str.charAt(3) + ' ' + str.charAt(4) + str.charAt(5);
         return str;
 
@@ -292,9 +292,50 @@ class Repository {
         let query = `update  attendance.Schedule set Attendance_approve = 1, Approval_dateTime = current_date()
                 where CRN= ${CRN}
                 and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'`;
-
+console.log(query);
         return mysql.query(query).spread(rows => {
             console.log("Rows= " + JSON.stringify(rows));
+            return rows.affectedRows;
+
+        })
+
+    }
+
+    async insertEmails(CRN,date){
+        let query = `INSERT INTO attendance.Email
+(
+Student_ID,
+Instructor_id,
+CRN,
+DateTime,
+Subject,
+Message
+)
+
+select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
+ concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
+ concat('You have been recorded as Absent in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
+ from StudentAttendance
+inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
+inner join Section on Section.CRN = Schedule.CRN
+inner join Course on Section.CourseCode = Course.CourseCode
+where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
+and StudentAttendance.IsAbsent = 1
+
+Union
+
+select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
+ concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
+ concat('You have been recorded as Late in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
+ from StudentAttendance
+inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
+inner join Section on Section.CRN = Schedule.CRN
+inner join Course on Section.CourseCode = Course.CourseCode
+where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
+and StudentAttendance.IsLate = 1
+`;
+        return mysql.query(query).spread(rows => {
+            ////console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
 
         })
@@ -307,7 +348,7 @@ class Repository {
                 and Student_id = ${Student_id};`;
 
         return mysql.query(query).spread(rows => {
-            console.log("Rows= " + JSON.stringify(rows));
+            ////console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
 
         })
@@ -319,10 +360,10 @@ class Repository {
         let query = '';
         query = `select ScheduleID, Attendance_approve from Schedule where CRN= ${CRN}
                 and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'`;
-        console.log(query);
+        //console.log(query);
 
         return mysql.query(query).spread(rows => {
-            console.log("Rows= " + JSON.stringify(rows));
+            //console.log("Rows= " + JSON.stringify(rows));
 
             let attendance_approve = rows[0].Attendance_approve;
             let scheduleId = rows[0].ScheduleID;
@@ -330,7 +371,7 @@ class Repository {
         })
     }
     async sendEmails(scheduleId){
-        console.log("Send Emails to Students");
+        //console.log("Send Emails to Students");
     }
 
     async updateApproveStatus(scheduleId, status){
@@ -338,7 +379,7 @@ class Repository {
                 where ScheduleID = ${scheduleId};`;
 
         return mysql.query(query).spread(rows => {
-            console.log("Rows= " + JSON.stringify(rows));
+            //console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
 
         })
@@ -358,7 +399,7 @@ class Repository {
 
         return await Promise.all(changes.map((c) => {
                 this.updateStudentAbsence(scheduleId, c.StudentId, c.IsAbsent).then(x => {
-                    console.log("x="+x);
+                    //console.log("x="+x);
                     numStudent += x;
                     return numStudent;
                 })
@@ -392,7 +433,7 @@ class Repository {
 
         let query = `delete from Settings where CRN in (${temp})`; // delete from setting table all CRN taught by that InstId
         return mysql.query(query).spread(rows => {
-            console.log("Rows= " + JSON.stringify(rows));
+            //console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
 
         })
@@ -402,7 +443,7 @@ class Repository {
     async deleteSectionSettings (CRN){
         let query = `delete from Settings where CRN=${CRN}`; // delete from setting table that CRN settings
         return mysql.query(query).spread(rows => {
-            console.log("Rows= " + JSON.stringify(rows));
+            //console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
 
         })
@@ -419,9 +460,9 @@ class Repository {
                 query = `delete from Settings where CRN= ${CRN} and settingType= '${c.settingType}' and settingSubtype='${c.settingSubtype}'`;
             }
 
-            console.log(query);
+            //console.log(query);
             return mysql.query(query).spread(rows => {
-                console.log("Rows= " + JSON.stringify(rows));
+                //console.log("Rows= " + JSON.stringify(rows));
                 return rows.affectedRows;
 
             })
@@ -464,7 +505,7 @@ class Repository {
 
 
     async UpdateSettings(instId,CRN,CourseCode,changes){
-        console.log("Update Settings function",instId,CRN,CourseCode);
+        //console.log("Update Settings function",instId,CRN,CourseCode);
         if (CRN == 'all')
             if (CourseCode == 'all')
                 this.applySettingToAllCourses(instId,changes);

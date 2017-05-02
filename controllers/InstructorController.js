@@ -83,12 +83,15 @@ class InstructorController {
     }
 
     async ApproveLecture(req,res){
-        let CRN = req.params.CRN;
-        let date = req.params.date;
+        let CRN = req.body.CRN;
+        let date = req.body.date;
 
         let numStudent = await repo.ApproveLecture(CRN,date);
+        let numEmails = repo.insertEmails(CRN,date);
+        console.log(numStudent);
         res.json(numStudent);
     }
+
 
     async UpdateAttendance(req,res){
         //  let data = await req; // convert from text to json object

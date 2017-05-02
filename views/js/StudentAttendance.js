@@ -95,11 +95,17 @@ async function DisplayAttendance() {
 
     <label style="margin-left:20px">Student Attend: {{numattend}}</label>
     <label style="margin-left:40px">Student Absent: {{numabsent}}</label>
-    <br>`;
+    <br>
+    <div id="approvediv"></div>`;
 
-    let buttonTemplate = `<div id="approvediv"><button type="button" onclick="SaveAttendance()" class="w3-button w3-grey w3-round w3-border" style="margin-left:20px">Save</button></div>`
-    let approvedMess = `<div id="approvediv">This Lecture Attendance has been approved</div>`
-    approved = parseInt(approved); // convert from string to int
+    let SavebuttonTemplate = `<button type="button" onclick="SaveAttendance()" 
+class="w3-button w3-grey w3-round w3-border" style="margin-left:20px">Save</button>`
+
+    let approvebuttonTemplate = `<button type="button" id="approvebutton" onclick="ApproveAttendance()" 
+class="w3-button w3-grey w3-round w3-border" style="margin-left:20px">Approve</button>`
+
+    let approvedMess = `<div id="approvediv">This Lecture Attendance has been finally approved</div>`
+    approved = parseInt(approved); // convert from MySQl (text) to int
     let numabsent = 0;
     let numattend = 0;
     if (attendance.length > 0) // if there is attendance
@@ -114,42 +120,64 @@ async function DisplayAttendance() {
         },0) // initial value 0
         numattend = attendance.length - numabsent ;
 
-    if (approved == 2)
-        template += approvedMess ;
-    else
-        template += buttonTemplate ;
-    }
+
 
     let handlebars = Handlebars.compile(template);
     let html = handlebars({attendance,numabsent,numattend});
     $('#attendanceTable').html(html);
 
+        if (approved == 0) // first time to approve
+            $('#approvediv').html(SavebuttonTemplate+approvebuttonTemplate) ; //approve = 0 never been approved ; first time to approve
+            else if (approved == 1) // after first approval
+            $('#approvediv').html(SavebuttonTemplate) ;
+
+        else
+            $('#approvediv').html(approvedMess); // system approval
+
+    }
+
 }
 
 async function ApproveAttendance() {
-    
+    let CRN = $('#sectionList').val();
+    let date = $('#datepicker').val();
+    date = `${date}`;
+
+    let changes = await getChanges();
+    if(changes.length!=0){
+        alert('Changes has made, please save before approval !') // changes were made but the user click approve without save
+        return;  //exit
+    }
+
+
+    //alert(JSON.stringify(changes));
+    let requestBody = {CRN:CRN,date:date};
+
+    let url = '/approve/attendance';
+    let data = await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }, method: 'POST', body: JSON.stringify(requestBody)
+    });
+let x = await data.json();
+console.log(x);
+    $('#approvebutton').hide(); //hide approve button after clicking the button
+
+    $('#feedback').html(`Your approval is submitted successfully, you still have 2 days to make any changes`)
 }
 
 async function SaveAttendance(){
     let CRN = $('#sectionList').val();
     let date = $('#datepicker').val();
     date = `${date}`;
-    let changes = [];
 
-    $('.absent').map((idx,c) => {
-
-        if (c.checked == true && $(c).attr('data-state') =='0'){ // '0' not absent 'true' instructor mark as absent
-            changes.push({StudentId:$(c).attr('data-Student_id'),IsAbsent: 1}) // absent == true
-        }
-        else if (c.checked == false && $(c).attr('data-state') =='1'){ //'1' absent 'false' instructor mark as not absent
-            changes.push({StudentId:$(c).attr('data-Student_id'),IsAbsent: 0}) // absent == false
-        }
-
-    })
+    let changes = await getChanges();
     if(changes.length==0){
         alert('No Changes were made !')
         return;  //exit
     }
+
     //alert(JSON.stringify(changes));
     let requestBody = {CRN:CRN,date:date,changes:changes};
 
@@ -163,7 +191,25 @@ async function SaveAttendance(){
 
 
 
-    $('#approvediv').html(`Your changes have been saved for this lecture`)
+    $('#feedback').html(`Your changes have been saved for this lecture`)
+
+}
+
+async function getChanges(){
+    let changes = [];
+
+    $('.absent').map((idx,c) => {
+
+        if (c.checked == true && $(c).attr('data-state') =='0'){ // '0' not absent 'true' instructor mark as absent
+            changes.push({StudentId:$(c).attr('data-Student_id'),IsAbsent: 1}) // absent == true
+        }
+        else if (c.checked == false && $(c).attr('data-state') =='1'){ //'1' absent 'false' instructor mark as not absent
+            changes.push({StudentId:$(c).attr('data-Student_id'),IsAbsent: 0}) // absent == false
+        }
+
+    })
+    return changes;
+
 
 }
 
