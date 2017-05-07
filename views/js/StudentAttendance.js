@@ -135,6 +135,9 @@ class="w3-button w3-grey w3-round w3-border" style="margin-left:20px">Approve</b
             $('#approvediv').html(approvedMess); // system approval
 
     }
+    else {
+        $('#attendanceTable').html('');
+    }
 
 }
 

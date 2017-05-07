@@ -1,4 +1,3 @@
-
 /**
  * Created by muna on 4/1/17.
  */
@@ -6,6 +5,9 @@
 const mysql = require('mysql-promise')();
 const remoteMysql = require('mysql-promise')();
 const moment = require('moment');
+var sg = require('sendgrid')('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');
+var helper = require('sendgrid').mail;
+
 class Repository {
 
 
@@ -51,8 +53,9 @@ class Repository {
             }
         })
     }
-/*
-       getRFServiceReading(){ // connect to the temporary database (RF Service)
+
+    /*
+     getRFServiceReading(){ // connect to the temporary database (RF Service)
      remoteMysql.configure ({
      host     : '192.168.1.53', // IP of the PC running the RF Service
      user     : 'root',
@@ -292,7 +295,7 @@ class Repository {
         let query = `update  attendance.Schedule set Attendance_approve = 1, Approval_dateTime = current_date()
                 where CRN= ${CRN}
                 and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'`;
-console.log(query);
+        console.log(query);
         return mysql.query(query).spread(rows => {
             console.log("Rows= " + JSON.stringify(rows));
             return rows.affectedRows;
@@ -301,38 +304,123 @@ console.log(query);
 
     }
 
-    async insertEmails(CRN,date){
+    async studentsExceededAbsentLimit(CRN, date) {
+        let query1 = `SELECT settingSubtype from Settings 
+        where CRN = ${CRN} and settingType='alert'
+        order by settingSubtype  desc`;
+
+        mysql.query(query1).spread(rows => {
+            let q = '';
+            let index = 0;
+            for (let r of rows) {
+
+                let prct = parseInt(r.settingSubtype);
+                if (index == 0) {
+                    q = q + `percentage >= ${prct} `
+                }
+                else {
+                    console.log("index",index)
+                    let oldpercent = parseInt(rows[index - 1].settingSubtype) - 1;
+                    q = q + `  or percentage between ${prct} and ${oldpercent}.9999 `
+                }
+
+                index++;
+            }
+
+
+            let query2 = `
+SELECT 
+    tbl3.*
+FROM
+    (SELECT 
+        tbl2.Student_id,
+            tbl2.CRN,
+            tbl2.numofAbsence,tbl2.x,  round (tbl2.numofAbsence * 100 / tbl2.x ) AS percentage
+    FROM
+        (SELECT 
+        tbl.Student_id, tbl.CRN, tbl.numofAbsence, (SELECT COUNT(*)   FROM Schedule WHERE CRN = ${CRN}) AS x
+    FROM
+        (SELECT Student_id, CRN,SUM(CASE WHEN isAbsent = 1 THEN 1 ELSE 0  END) AS numofAbsence
+    FROM         StudentAttendance INNER JOIN Schedule 
+    ON StudentAttendance.Schedule_id = Schedule.ScheduleID
+    where Schedule.StartDateTime <= STR_TO_DATE('${date}', '%d-%m-%Y')
+
+    GROUP BY Student_id,CRN
+    
+    ) AS tbl
+    INNER JOIN Enrollment ON tbl.Student_id = Enrollment.Student_ID
+        AND tbl.CRN = Enrollment.CRN
+    WHERE
+        tbl.numofAbsence > Enrollment.numofAbsence) AS tbl2
+    ) AS tbl3
+    WHERE
+        (${q} )
+`;
+
+
+            console.log(query2);
+
+            mysql.query(query2).spread(rows => {
+                for (let r of rows) {
+                    let query3 = `INSERT INTO attendance.Email (Student_ID, Instructor_id, CRN, DateTime, Subject, Message)
+                        select ${r.Student_id}, Section.InstructorID, ${r.CRN}, now() as emailTime,
+                         concat('Attendance Warning for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
+                         concat('Your Absence Percent is now:   ', ${r.percentage} ) as Message from Section 
+                         inner join Course on Course.CourseCode = Section.CourseCode
+                         where CRN = ${r.CRN}`;
+
+                    console.log('insertQurey',query3)
+                    return mysql.query(query3).spread(rows => {
+                       // this.sendEmail('linaselim77@gmail.com','muna.alremaihi@gmail.com','Hi','Test email');
+
+                        ////console.log("Rows= " + JSON.stringify(rows));
+                        return rows.affectedRows;
+
+                    })
+
+                }
+
+
+
+            })
+
+        })
+
+
+    }
+
+    async insertEmails(CRN, date) {
         let query = `INSERT INTO attendance.Email
-(
-Student_ID,
-Instructor_id,
-CRN,
-DateTime,
-Subject,
-Message
-)
+        (
+        Student_ID,
+        Instructor_id,
+        CRN,
+        DateTime,
+        Subject,
+        Message
+        )
 
-select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
- concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
- concat('You have been recorded as Absent in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
- from StudentAttendance
-inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
-inner join Section on Section.CRN = Schedule.CRN
-inner join Course on Section.CourseCode = Course.CourseCode
-where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
-and StudentAttendance.IsAbsent = 1
-
-Union
-
-select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
- concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
- concat('You have been recorded as Late in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
- from StudentAttendance
-inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
-inner join Section on Section.CRN = Schedule.CRN
-inner join Course on Section.CourseCode = Course.CourseCode
-where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
-and StudentAttendance.IsLate = 1
+        select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
+         concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
+         concat('You have been recorded as Absent in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
+         from StudentAttendance
+        inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
+        inner join Section on Section.CRN = Schedule.CRN
+        inner join Course on Section.CourseCode = Course.CourseCode
+        where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
+        and StudentAttendance.IsAbsent = 1
+        
+        Union
+        
+        select Student_id , InstructorID, Schedule.CRN, now() as emailTime,
+         concat('Attendance for: ', Section.CourseCode ,' - ' , CourseName) as Subject ,
+         concat('You have been recorded as Late in ', DATE_FORMAT(StartDateTime,'%d-%m-%Y') ) as Message
+         from StudentAttendance
+        inner join Schedule on Schedule.ScheduleID = StudentAttendance.Schedule_id
+        inner join Section on Section.CRN = Schedule.CRN
+        inner join Course on Section.CourseCode = Course.CourseCode
+        where Schedule.CRN = ${CRN} and DATE_FORMAT(StartDateTime,'%d-%m-%Y') = '${date}'
+        and StudentAttendance.IsLate = 1
 `;
         return mysql.query(query).spread(rows => {
             ////console.log("Rows= " + JSON.stringify(rows));
@@ -370,11 +458,12 @@ and StudentAttendance.IsLate = 1
             return {scheduleId, attendance_approve}
         })
     }
-    async sendEmails(scheduleId){
+
+    async sendEmails(scheduleId) {
         //console.log("Send Emails to Students");
     }
 
-    async updateApproveStatus(scheduleId, status){
+    async updateApproveStatus(scheduleId, status) {
         let query = `update  attendance.Schedule set Attendance_approve = ${status}
                 where ScheduleID = ${scheduleId};`;
 
@@ -385,16 +474,17 @@ and StudentAttendance.IsLate = 1
         })
 
     }
+
     async UpdateAttendance(CRN, date, changes) {
 
         let numStudent = 0;
-        let  sch= await this.getScheduleID(CRN, date);
-        let scheduleId= sch.scheduleId;
-        let attendance_approve= sch.attendance_approve;
+        let sch = await this.getScheduleID(CRN, date);
+        let scheduleId = sch.scheduleId;
+        let attendance_approve = sch.attendance_approve;
 
-        if (attendance_approve==0){
+        if (attendance_approve == 0) {
             this.sendEmails(scheduleId);
-            this.updateApproveStatus(scheduleId,1);
+            this.updateApproveStatus(scheduleId, 1);
         }
 
         return await Promise.all(changes.map((c) => {
@@ -412,7 +502,7 @@ and StudentAttendance.IsLate = 1
 
     }
 
-    async getStudentEmails(student_id,inst_id){
+    async getStudentEmails(student_id, inst_id) {
         let query = `SELECT Subject , Message, DATE_FORMAT(DateTime, '%d/%m/%Y %H:%i:%s') DateTime FROM attendance.Email
             where Student_ID=${student_id} and Instructor_id= ${inst_id}`;
 
@@ -421,11 +511,11 @@ and StudentAttendance.IsLate = 1
         })
     }
 
-    async deleteAllInstSectionsSettings(instId){
+    async deleteAllInstSectionsSettings(instId) {
         let sections = await this.getInstSections(instId);
         let temp = '';
-        sections.map((s)=>{
-            if (temp != ''){
+        sections.map((s) => {
+            if (temp != '') {
                 temp += ','
             }
             temp += s.CRN;
@@ -438,9 +528,9 @@ and StudentAttendance.IsLate = 1
 
         })
 
-}
+    }
 
-    async deleteSectionSettings (CRN){
+    async deleteSectionSettings(CRN) {
         let query = `delete from Settings where CRN=${CRN}`; // delete from setting table that CRN settings
         return mysql.query(query).spread(rows => {
             //console.log("Rows= " + JSON.stringify(rows));
@@ -449,10 +539,10 @@ and StudentAttendance.IsLate = 1
         })
     }
 
-    async applySettingChanges(CRN,changes){
-        return Promise.all (changes.map((c)=>{
+    async applySettingChanges(CRN, changes) {
+        return Promise.all(changes.map((c) => {
             let query = '';
-            if (c.change == 'insert' && c.settingSubtype != 'none'){
+            if (c.change == 'insert' && c.settingSubtype != 'none') {
                 query = `insert into Settings (CRN,settingType,settingSubtype) values (${CRN},'${c.settingType}','${c.settingSubtype}')`;
 
             }
@@ -469,31 +559,32 @@ and StudentAttendance.IsLate = 1
         }))
     }
 
-    async applySettingToAllCourses(instId,changes){
+    async applySettingToAllCourses(instId, changes) {
         await this.deleteAllInstSectionsSettings(instId);
         let sections = await this.getInstSections(instId);
 
-            sections.map((s)=>{
-               this.applySettingChanges(s.CRN,changes);// apply to all sections of this instructor
-            })
+        sections.map((s) => {
+            this.applySettingChanges(s.CRN, changes);// apply to all sections of this instructor
+        })
 
     }
 
-    async applySettingToAllCourseSections(instId,CourseCode,changes){
+    async applySettingToAllCourseSections(instId, CourseCode, changes) {
         await this.deleteAllInstSectionsSettings(instId);
-        let sections = await this.getClassSections(instId,CourseCode);
+        let sections = await this.getClassSections(instId, CourseCode);
 
-        sections.map((s)=>{
-            this.applySettingChanges(s.CRN,changes);// apply to all sections of this instructor
+        sections.map((s) => {
+            this.applySettingChanges(s.CRN, changes);// apply to all sections of this instructor
         })
     }
 
-    async applySettingToCourseSection(CRN,changes){
+    async applySettingToCourseSection(CRN, changes) {
         await this.deleteSectionSettings(CRN);
-        await this.applySettingChanges(CRN,changes);// apply to all sections of this instructor
+        await this.applySettingChanges(CRN, changes);// apply to all sections of this instructor
 
     }
-    async getSectionSettings(CRN){
+
+    async getSectionSettings(CRN) {
         let query = `SELECT *  FROM attendance.Settings
             where CRN=${CRN} `;
 
@@ -503,19 +594,67 @@ and StudentAttendance.IsLate = 1
     }
 
 
-
-    async UpdateSettings(instId,CRN,CourseCode,changes){
+    async UpdateSettings(instId, CRN, CourseCode, changes) {
         //console.log("Update Settings function",instId,CRN,CourseCode);
         if (CRN == 'all')
             if (CourseCode == 'all')
-                this.applySettingToAllCourses(instId,changes);
+                this.applySettingToAllCourses(instId, changes);
             else
-                this.applySettingToAllCourseSections(CourseCode,changes);
+                this.applySettingToAllCourseSections(CourseCode, changes);
         else
-            this.applySettingToCourseSection(CRN,changes);
+            this.applySettingToCourseSection(CRN, changes);
+
+
+    }
+
+    async sendBatchEmailViaSendGrid(){  //batch = group
+        let query = `select Email_id , Subject , Message,  iuser.Email as instructorEmail , suser.Email as studentEmail , suser.First_name as studentName
+            from Email
+            inner join User as iuser on Email.Instructor_id = iuser.User_ID
+            inner join User as suser on Email.Student_ID = suser.User_ID
+            where Email.sendDateTime is null`;
+
+        return mysql.query(query).spread(rows => {
+            for (let r of rows){
+                console.log('r',r);
+                var fromEmail = new helper.Email(r.instructorEmail);
+                var toEmail = new helper.Email(r.studentEmail);
+                var cc = new helper.Email(r.instructorEmail);
+                var subject = r.Subject;
+                var content = new helper.Content('text/plain', `Hi ${r.studentName}\n ${r.Message}`);
+                var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+                var request = sg.emptyRequest({
+                    method: 'POST',
+                    path: '/v3/mail/send',
+                    body: mail.toJSON()
+                });
+
+                sg.API(request, function (error, response) {
+                    if (error) {
+                        console.log('Error response received');
+                    }
+                    console.log('statusCode',response.statusCode);
+                    console.log('Body',response.body);
+                    console.log('Headers',response.headers);
+
+                    let query2= `update Email set senddatetime = now()
+                        where Email_id = ${r.Email_id} `;
 
 
 
+                    mysql.query(query2).spread(rows => {
+                        //console.log("Rows= " + JSON.stringify(rows));
+                        return rows.affectedRows;
+
+                    })
+
+                });
+            }
+        })
+
+        // using SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
 
 
     }

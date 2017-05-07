@@ -87,7 +87,9 @@ class InstructorController {
         let date = req.body.date;
 
         let numStudent = await repo.ApproveLecture(CRN,date);
-        let numEmails = repo.insertEmails(CRN,date);
+        let numEmails = await repo.insertEmails(CRN,date);
+        await repo.studentsExceededAbsentLimit(CRN, date);
+        await repo.sendBatchEmailViaSendGrid();
         console.log(numStudent);
         res.json(numStudent);
     }
