@@ -658,6 +658,64 @@ FROM
 
 
     }
+
+    async getInstStatAllClass(instId){
+        let query = `Select table1.* , Credit * NumStudents * 16 as totalHours, (NumOfAbsence * 100) / ( Credit * NumStudents * 16 ) as percentage
+        from (
+        SELECT  Section.CourseCode , Credit, count(distinct Enrollment.Student_ID) as NumStudents , sum(StudentAttendance.IsAbsent) as NumOfAbsence 
+        FROM Section 
+        inner join Enrollment on Section.CRN = Enrollment.CRN
+        inner join Course on Course.CourseCode = Section.CourseCode
+        inner join Schedule on Schedule.CRN = Section.CRN
+        left outer join StudentAttendance on StudentAttendance.Schedule_id = Schedule.ScheduleID
+        and StudentAttendance.Student_id = Enrollment.Student_ID
+        where InstructorID = ${instId} 
+        group by  CourseCode, Credit ) table1;`
+
+        return mysql.query(query).spread(rows => {
+            return rows;
+        })
+
+
+    }
+
+    async getInstStatCoursebasedonSection (instId, CourseCode){
+        let query=`Select table1.* , Credit * NumStudents * 16 as totalHours, (NumOfAbsence * 100) / ( Credit * NumStudents * 16 ) as percentage
+        from (
+        SELECT  Section.SectionNo , Credit, count(distinct Enrollment.Student_ID) as NumStudents , sum(StudentAttendance.IsAbsent) as NumOfAbsence 
+        FROM Section 
+        inner join Enrollment on Section.CRN = Enrollment.CRN
+        inner join Course on Course.CourseCode = Section.CourseCode
+        inner join Schedule on Schedule.CRN = Section.CRN
+        left outer join StudentAttendance on StudentAttendance.Schedule_id = Schedule.ScheduleID
+        and StudentAttendance.Student_id = Enrollment.Student_ID
+        where InstructorID = ${instId} and Section.CourseCode = '${CourseCode}'
+        group by  SectionNo, Credit ) table1;`
+
+        return mysql.query(query).spread(rows => {
+            return rows;
+        })
+    }
+
+    async getInstStatCoursebasedonGender (instId , CourseCode){
+        let query = `Select table1.* , Credit * NumStudents * 16 as totalHours, (NumOfAbsence * 100) / ( Credit * NumStudents * 16 ) as percentage
+        from (
+        SELECT  Student.Gender , Credit, count(distinct Enrollment.Student_ID) as NumStudents , sum(StudentAttendance.IsAbsent) as NumOfAbsence 
+        FROM Section 
+        inner join Enrollment on Section.CRN = Enrollment.CRN
+        inner join Course on Course.CourseCode = Section.CourseCode
+        inner join Schedule on Schedule.CRN = Section.CRN
+        inner join Student on Student.ID = Enrollment.Student_ID
+        left outer join StudentAttendance on StudentAttendance.Schedule_id = Schedule.ScheduleID
+        and StudentAttendance.Student_id = Enrollment.Student_ID
+        where InstructorID = ${instId} and Section.CourseCode = '${CourseCode}'
+        group by  Gender, Credit ) table1;`
+
+        return mysql.query(query).spread(rows => {
+            return rows;
+        })
+    }
+
 }
 
 module.exports = new Repository();

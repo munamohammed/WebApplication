@@ -30,8 +30,9 @@ class InstructorController {
     }
 
 
-    statistic(req, res){
-        res.render('Statistic',{currentUser: req.session.user, instructor:true });
+    async statistic(req, res){
+        let classes = await repo.getInstClasses(req.session.user.userId);
+        res.render('Statistic',{currentUser: req.session.user, instructor:true, classes });
 
     }
 
@@ -127,6 +128,33 @@ class InstructorController {
         let settingData= await repo.getSectionSettings(CRN);
         res.json(settingData);
     }
+
+
+    async getInstStatAllClass (req,res){
+        let instId = req.session.user.userId;
+        let stats =  await repo.getInstStatAllClass(instId);
+
+        res.json(stats);
+    }
+
+    async getInstStatCourse (req,res){
+        let instId = req.session.user.userId;
+        let CourseCode = req.params.CourseCode;
+        let basedon = req.params.basedon;
+        let stats ;
+        if ( basedon == 'section'){
+             stats =  await repo.getInstStatCoursebasedonSection(instId,CourseCode);
+
+        }
+        else
+             stats =  await repo.getInstStatCoursebasedonGender(instId,CourseCode);
+
+
+        res.json(stats);
+
+    }
+
+
 }
 
 

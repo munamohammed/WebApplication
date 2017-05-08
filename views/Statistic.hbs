@@ -24,78 +24,34 @@
                     </div>
                 </div>
             </div>
+
+
             <div class="w3-threequarter">
                 <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div class="styled" id="sectionDiv">
 
-                        <select id="sectionList" onchange="onSectionListChange()"></select>
+                    <div class="w3-clear"></div>
+                    <div class="styled">
+                    <select id="basedon" onchange="drawChart()">
+                        <option selected>Based on</option>
+                            <option value="section"><a href="javascript:void(0);" >Attendance - Section</a></option>
+                            <option value="gender"><a href="javascript:void(0);" >Attendance - Gender</a></option>
+                    </select>
                     </div>
                 </div>
             </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Statistics
-                            Style
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Pie Chart</a></li>
-                            <li><a href="#">Line Chart</a></li>
-                            <li><a href="#">Column Chart</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Based on
-                            <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Attendance - Section</a></li>
-                            <li><a href="#">Attendance - Gender</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div><br><br></div>
-            <div class="w3-quarter">
-                <div class="w3-container w3-padding-16">
-                    <div class="w3-clear"></div>
-                    <div>
-                        <label>Calculate:</label><br>
-                        <input type="checkbox" name="vehicle" value="mean"> Mean<br>
-                        <input type="checkbox" name="vehicle" value="med"> Median<br>
-                        <input type="checkbox" name="vehicle" value="min"> Minimum<br>
-                        <input type="checkbox" name="vehicle" value="max"> Maximum<br>
-                        <br>
-                        <div>
-                            <button type="button" class="w3-button w3-grey w3-round w3-border">Submit</button>
-                        </div>
-                        <br><br>
-                        <div>
-                        <textarea rows="4" cols="50" readonly>
-                            Average = 70%
-                            Min = 2 days
-                            Max = 8 days
-                        </textarea>
-                        </div>
-                    </div>
-                </div>
 
 
-            </div>
+
 
 
             <!--</div>-->
             <!--<div class="w3-quarter"></div>-->
         </div>
 
+        <div id="chart_div"></div>
+
         <!-- End page content -->
     </div>
 </div>
 
-<script src="views/js/Setting.js"></script>
+<script src="views/js/chart.js"></script>

@@ -35,7 +35,13 @@ router.get('/landing', (req, res) => {
         res.status(500).send("User Not Found in the cookie");
     }
 });
+router.get('/stat/all' , (req,res) => {
+    instructorController.getInstStatAllClass(req,res);
+})
 
+router.get(`/stat/:CourseCode/:basedon`, (req,res)=> {
+  instructorController.getInstStatCourse(req,res);
+})
 
 
 //Middleware to intercept requests and redirect to the login page if the user is not logged-in. Only apllies to /students and /heroes
