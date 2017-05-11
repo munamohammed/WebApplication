@@ -6,7 +6,7 @@ let handlebars = require('express-handlebars');
 let app = express ();
 let router = require('./routes');
 let cookie = require('cookie-parser');
-let repo = require('./models/Repository');
+
 let body_parser= require('body-parser');
 let session = require('express-session');
 

@@ -54,42 +54,7 @@ class Repository {
         })
     }
 
-    /*
-     getRFServiceReading(){ // connect to the temporary database (RF Service)
-     remoteMysql.configure ({
-     host     : '192.168.1.53', // IP of the PC running the RF Service
-     user     : 'root',
-     password : 'muna12345',
-     database : 'attendance'
-     });
 
-     let query = `select * from readings`;
-     return mysql.query(query).spread (rows => {
-     return rows;
-     })
-     }
-     insertRFServiceReading(rows){
-     mysql.configure ({
-     host     : 'localhost', // IP of the PC running the RF Service
-     user     : 'root',
-     password : 'muna12345',
-     database : 'attendance'
-     });
-
-     rows.map(r=>{
-     let d= moment(r.Reading_date_time);
-     let dString = d.format('YYYY-MM-DD HH:mm:ss');
-     //console.log(dString);
-     let insertQuery = `insert into attendance.Reading (Tag_serial_no,Reading_date_time,Reader_Id)
-     values ('${r.Tag_serial_no}','${dString}',${r.Reader_id})`;//insert into the table Reading
-     //console.log(insertQuery);
-     return mysql.query(insertQuery).spread (rows => {
-     return rows;
-     })
-     })
-
-     }
-     */
     async getStudentClassesAttendance(studentId) {
         let query = `SELECT Enrollment.CRN , Section.CourseCode, Course.CourseName, 10 as absence 
             from Enrollment inner join Section on Enrollment.CRN = Section.CRN 
@@ -713,6 +678,25 @@ FROM
 
         return mysql.query(query).spread(rows => {
             return rows;
+        })
+    }
+
+    /*------------------------- Service Functions ------------------------ */
+
+    async initDayAttendance (date){
+        let query = `INSERT INTO StudentAttendance
+            (Schedule_id,
+            Student_id,
+            IsLate,
+            IsAbsent)
+            select ScheduleID, Student_id, 0, 1 from Schedule 
+            inner join Enrollment on Enrollment.CRN = Schedule.CRN 
+            where date_format(StartDateTime, '%d-%m-%Y') =  '${date}' `;
+
+        return mysql.query(query).spread(rows => {
+            //console.log("Rows= " + JSON.stringify(rows));
+            return rows.affectedRows;
+
         })
     }
 
